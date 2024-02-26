@@ -26,7 +26,7 @@ const float ZOOM = 45.0f;
 const float DEFAULT_WIDTH = 1920;
 const float DEFAULT_HEIGHT = 1080;
 const float DEFAULT_NEARPLANE = 0.1f;
-const float DEFAULT_FARPLANE = 100.0f;
+const float DEFAULT_FARPLANE = 1000.0f;
 
 
 enum class CameraType

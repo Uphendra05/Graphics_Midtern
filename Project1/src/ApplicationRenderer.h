@@ -52,6 +52,7 @@ public:
 	void SpaceStation();
 	void MidScreenTextureLoad();
 	void WindowScreenTextureLoad();
+	void AsteroidLoad();
 
 	void ProcessInput(GLFWwindow* window);
 

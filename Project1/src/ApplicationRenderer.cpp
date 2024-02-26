@@ -155,42 +155,42 @@ void ApplicationRenderer::WindowInitialize(int width, int height, std::string wi
 
     GraphicsRender::GetInstance().SetCamera(sceneCamera);
 
-    sceneCamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    sceneCamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     sceneCamera->transform.position = glm::vec3(0, 0, -1.0f);
 
-    gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     gameScenecamera->transform.position = glm::vec3(0, 0, -1.0f);
 
-    ScreenViewOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     ScreenViewOne->transform.position = glm::vec3(5, 0, 0);
     ScreenViewOne->IntializeRenderTexture(specs);
     m_listOfScreenTextuers.push_back(ScreenViewOne->renderTexture);
 
-    ScreenViewTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     ScreenViewTwo->transform.position = glm::vec3(-5, 0, -13);
     ScreenViewTwo->IntializeRenderTexture(specs);
     m_listOfScreenTextuers.push_back(ScreenViewTwo->renderTexture);
 
-    ScreenViewThree->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewThree->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     ScreenViewThree->transform.position = glm::vec3(-5, 0, 0);
     ScreenViewThree->IntializeRenderTexture(specs);
     m_listOfScreenTextuers.push_back(ScreenViewThree->renderTexture);
 
-    ScreenViewFour->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewFour->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     ScreenViewFour->transform.position = glm::vec3(-5, 0, -6);
     ScreenViewFour->IntializeRenderTexture(specs);
     m_listOfScreenTextuers.push_back(ScreenViewFour->renderTexture);
 
-    ScreenViewFive->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewFive->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     ScreenViewFive->transform.position = glm::vec3(-5, 0, -3);
     ScreenViewFive->IntializeRenderTexture(specs);
     m_listOfScreenTextuers.push_back(ScreenViewFive->renderTexture);
 
-    MidScreenCamOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    MidScreenCamOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     MidScreenCamOne->transform.position = glm::vec3(-5, 30, -3.80);
     MidScreenCamOne->IntializeRenderTexture(specs);
 
-    MidScreenCamTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    MidScreenCamTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     MidScreenCamTwo->transform.position = glm::vec3(5, 30, -3.80);
     MidScreenCamTwo->IntializeRenderTexture(specs);
     // renderTextureCamera->IntializeRenderTexture(new RenderTexture());
@@ -360,6 +360,7 @@ void ApplicationRenderer::Start()
 
    
     SpaceStation();
+    AsteroidLoad();
 
     //LightRenderer
     //LightManager::GetInstance().AddLight(directionLight);
@@ -680,8 +681,6 @@ void ApplicationRenderer::PostRender()
         }
         else
         {
-            Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
-            Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
             Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
             ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
 
@@ -851,6 +850,42 @@ void ApplicationRenderer::WindowScreenTextureLoad()
 {
 
     
+
+}
+
+void ApplicationRenderer::AsteroidLoad()
+{
+    Model* AsteroidBody = new Model("Models/Asteroid/asteroid_industrial_xyz_n_rgba_uv.ply");
+    AsteroidBody->name = "AsteroidMain";
+    AsteroidBody->transform.SetPosition(glm::vec3(0, -17, 5));
+    AsteroidBody->transform.SetRotation(glm::vec3(0, 180, 0));
+    AsteroidBody->transform.SetScale(glm::vec3(0.1f));
+    GraphicsRender::GetInstance().AddModelAndShader(AsteroidBody, defaultShader);
+
+
+    Model* AsteroidPartOne = new Model("Models/Asteroid/asteroid_main_xyz_n_rgba_uv.ply");
+    AsteroidPartOne->name = "AsteroidPartOne";
+    AsteroidPartOne->transform.SetPosition(glm::vec3(0, -17, 5));
+    AsteroidPartOne->transform.SetRotation(glm::vec3(0, 180, 0));
+    AsteroidPartOne->transform.SetScale(glm::vec3(0.1f));
+    GraphicsRender::GetInstance().AddModelAndShader(AsteroidPartOne, defaultShader);
+
+
+    Model* AsteroidPartTwo = new Model("Models/Asteroid/asteroid_other_xyz_n_rgba_uv.ply");
+    AsteroidPartTwo->name = "AsteroidPartTwo";
+    AsteroidPartTwo->transform.SetPosition(glm::vec3(0, -17, 5));
+    AsteroidPartTwo->transform.SetRotation(glm::vec3(0, 180, 0));
+    AsteroidPartTwo->transform.SetScale(glm::vec3(0.1f));
+    GraphicsRender::GetInstance().AddModelAndShader(AsteroidPartTwo, defaultShader);
+
+
+    Model* AsteroidPartThree = new Model("Models/Asteroid/stuff_main_asteroid_xyz_n_rgba_uv.ply");
+    AsteroidPartThree->name = "AsteroidPartThree";
+    AsteroidPartThree->transform.SetPosition(glm::vec3(0, -17, 5));
+    AsteroidPartThree->transform.SetRotation(glm::vec3(0, 180, 0));
+    AsteroidPartThree->transform.SetScale(glm::vec3(0.1f));
+    GraphicsRender::GetInstance().AddModelAndShader(AsteroidPartThree, defaultShader);
+
 
 }
 
