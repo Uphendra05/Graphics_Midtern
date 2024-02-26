@@ -2,6 +2,7 @@
 
 #include "FlickerAndStatic.h"
 #include "NightVision.h"
+#include "StaticEffect.h"
 
 class PostProcessing : public Object
 {
@@ -34,7 +35,7 @@ private:
 
 	FlickerAndStatic* flickerAndStatic;
 	NightVision* nightVision;
-	
+	StaticEffect* staticEffect;
 
 	Shader* finalShader;
 

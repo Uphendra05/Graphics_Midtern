@@ -24,7 +24,7 @@ public:
 	
 	void SetShaderUniforms() override;
 	FrameBuffer* chromaticFramebuffer;
-private:
+private: 
 	float effectAmount = 10;
 
 	// Inherited via SinglePassEffect

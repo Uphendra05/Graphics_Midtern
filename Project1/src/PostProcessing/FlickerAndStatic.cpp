@@ -71,7 +71,7 @@ void FlickerAndStatic::InitializeEffect(const std::string& vertex, const std::st
 void FlickerAndStatic::SetShaderUniforms()
 {
 	shader->setInt("sceneTexture", 0);  // Scene texture from framebuffer
-	shader->setFloat("effectAmount", effectAmount);   // abreation
+	shader->setFloat("aberration", effectAmount);   // abreation
 	shader->setFloat("time", time);   // abreation
 }
 

@@ -153,6 +153,7 @@
     <ClCompile Include="src\PostProcessing\FlickerAndStatic.cpp" />
     <ClCompile Include="src\PostProcessing\PostProcessing.cpp" />
     <ClCompile Include="src\PostProcessing\SinglePassEffect.cpp" />
+    <ClCompile Include="src\PostProcessing\StaticEffect.cpp" />
     <ClCompile Include="src\RenderQuad.cpp" />
     <ClCompile Include="src\Texture\RenderTexture.cpp" />
     <ClCompile Include="src\Texture\BaseTexture.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\PostProcessing\FlickerAndStatic.h" />
     <ClInclude Include="src\PostProcessing\PostProcessing.h" />
     <ClInclude Include="src\PostProcessing\SinglePassEffect.h" />
+    <ClInclude Include="src\PostProcessing\StaticEffect.h" />
     <ClInclude Include="src\RenderQuad.h" />
     <ClInclude Include="src\Texture\RenderTexture.h" />
     <ClInclude Include="src\Texture\BaseTexture.h" />
@@ -307,6 +309,8 @@
     <None Include="Shaders\Shader.vert" />
     <None Include="Shaders\SkyboxShader.frag" />
     <None Include="Shaders\SkyboxShader.vert" />
+    <None Include="Shaders\Static.frag" />
+    <None Include="Shaders\Static.vert" />
     <None Include="Shaders\StencilOutline.frag" />
     <None Include="Shaders\StencilOutline.vert" />
     <None Include="Source.frag" />

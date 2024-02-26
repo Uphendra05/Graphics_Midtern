@@ -28,6 +28,10 @@ void PostProcessing::InitializePostProcessing()
 	flickerAndStatic->finalShader = finalShader;
 	AddEffect(flickerAndStatic);
 
+	staticEffect = new StaticEffect(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
+	staticEffect->finalShader = finalShader;
+	AddEffect(staticEffect);
+
 	//nightVision = new NightVision(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
 	//nightVision->finalShader = finalShader;
 	//ddEffect(nightVision);
