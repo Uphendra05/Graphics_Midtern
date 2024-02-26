@@ -4,14 +4,14 @@
 #include "SinglePassEffect.h"
 
 
-class ChromaticAbber : public SinglePassEffect
+class FlickerAndStatic : public SinglePassEffect
 {
 
 public:
 
-	ChromaticAbber();
-	ChromaticAbber(float width, float height);
-	~ChromaticAbber();
+	FlickerAndStatic();
+	FlickerAndStatic(float width, float height);
+	~FlickerAndStatic();
 
 	
 
@@ -25,7 +25,7 @@ public:
 	void SetShaderUniforms() override;
 	FrameBuffer* chromaticFramebuffer;
 private:
-	float aberrationValue = 10;
+	float effectAmount = 10;
 
 	// Inherited via SinglePassEffect
 	//void OnApplyEffect(FrameBuffer* sceneBuffer) override;

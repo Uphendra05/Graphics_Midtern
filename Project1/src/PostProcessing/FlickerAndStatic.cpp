@@ -1,29 +1,29 @@
-#include "ChromaticAbber.h"
+#include "FlickerAndStatic.h"
 #include"../Time.h"
 #include "../Renderer.h"
 #include "../GraphicsRender.h"
 
-ChromaticAbber::ChromaticAbber()
+FlickerAndStatic::FlickerAndStatic()
 {
 	name = "Chromatic";
 	
 
-	InitializeEffect("Shaders/Chromatic.vert", "Shaders/Chromatic.frag");
+	InitializeEffect("Shaders/FlickerAndStatic.vert", "Shaders/FlickerAndStatic.frag");
 
 }
 
-ChromaticAbber::ChromaticAbber(float width, float height)
+FlickerAndStatic::FlickerAndStatic(float width, float height)
 {
 	name = "Chromatic";
 
 	framebufferWidthAndHeight.x = width;
 	framebufferWidthAndHeight.y = height;
 
-	InitializeEffect("Shaders/Chromatic.vert", "Shaders/Chromatic.frag");
+	InitializeEffect("Shaders/FlickerAndStatic.vert", "Shaders/FlickerAndStatic.frag");
 
 }
 
-ChromaticAbber::~ChromaticAbber()
+FlickerAndStatic::~FlickerAndStatic()
 {
 }
 
@@ -31,7 +31,7 @@ ChromaticAbber::~ChromaticAbber()
 
 
 
-void ChromaticAbber::DrawProperties()
+void FlickerAndStatic::DrawProperties()
 {
 	SinglePassEffect::DrawProperties();
 
@@ -43,17 +43,17 @@ void ChromaticAbber::DrawProperties()
 		}
 		ImGui::Text("Aberration Amount");
 		ImGui::SameLine();
-		ImGui::InputFloat("###amount", &aberrationValue);
+		ImGui::InputFloat("###amount", &effectAmount);
 		ImGui::TreePop();
 	}
 
 }
 
-void ChromaticAbber::SceneDraw()
+void FlickerAndStatic::SceneDraw()
 {
 }
 
-void ChromaticAbber::InitializeEffect(const std::string& vertex, const std::string& fragment)
+void FlickerAndStatic::InitializeEffect(const std::string& vertex, const std::string& fragment)
 {
 	shader = new Shader(vertex.c_str(), fragment.c_str());
 
@@ -68,10 +68,10 @@ void ChromaticAbber::InitializeEffect(const std::string& vertex, const std::stri
 
 }
 
-void ChromaticAbber::SetShaderUniforms()
+void FlickerAndStatic::SetShaderUniforms()
 {
 	shader->setInt("sceneTexture", 0);  // Scene texture from framebuffer
-	shader->setFloat("aberration", aberrationValue);   // abreation
+	shader->setFloat("effectAmount", effectAmount);   // abreation
 	shader->setFloat("time", time);   // abreation
 }
 

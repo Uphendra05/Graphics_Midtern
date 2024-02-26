@@ -150,7 +150,7 @@
     <ClCompile Include="src\PostProcessing\NightVision.cpp" />
     <ClCompile Include="src\CameraManager\CameraManager.cpp" />
     <ClCompile Include="src\PostProcessing\BasePPAP.cpp" />
-    <ClCompile Include="src\PostProcessing\ChromaticAbber.cpp" />
+    <ClCompile Include="src\PostProcessing\FlickerAndStatic.cpp" />
     <ClCompile Include="src\PostProcessing\PostProcessing.cpp" />
     <ClCompile Include="src\PostProcessing\SinglePassEffect.cpp" />
     <ClCompile Include="src\RenderQuad.cpp" />
@@ -216,7 +216,7 @@
     <ClInclude Include="src\PostProcessing\NightVision.h" />
     <ClInclude Include="src\CameraManager\CameraManager.h" />
     <ClInclude Include="src\PostProcessing\BasePPAP.h" />
-    <ClInclude Include="src\PostProcessing\ChromaticAbber.h" />
+    <ClInclude Include="src\PostProcessing\FlickerAndStatic.h" />
     <ClInclude Include="src\PostProcessing\PostProcessing.h" />
     <ClInclude Include="src\PostProcessing\SinglePassEffect.h" />
     <ClInclude Include="src\RenderQuad.h" />
@@ -290,8 +290,8 @@
     <None Include="Shaders\Blur.vert" />
     <None Include="Shaders\BrightnessExtract.frag" />
     <None Include="Shaders\BrightnessExtract.vert" />
-    <None Include="Shaders\Chromatic.frag" />
-    <None Include="Shaders\Chromatic.vert" />
+    <None Include="Shaders\FlickerAndStatic.frag" />
+    <None Include="Shaders\FlickerAndStatic.vert" />
     <None Include="Shaders\color.frag" />
     <None Include="Shaders\color.vert" />
     <None Include="Shaders\DefaultShader_Fragment.frag" />

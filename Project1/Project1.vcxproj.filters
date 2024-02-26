@@ -180,7 +180,7 @@
     <ClCompile Include="src\PostProcessing\BasePPAP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PostProcessing\ChromaticAbber.cpp">
+    <ClCompile Include="src\PostProcessing\FlickerAndStatic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PostProcessing\PostProcessing.cpp">
@@ -398,7 +398,7 @@
     <ClInclude Include="src\PostProcessing\BasePPAP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PostProcessing\ChromaticAbber.h">
+    <ClInclude Include="src\PostProcessing\FlickerAndStatic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PostProcessing\NightVision.h">
@@ -460,8 +460,8 @@
     <None Include="Shaders\Blur.frag" />
     <None Include="Shaders\BlendShader.vert" />
     <None Include="Shaders\BlendShader.frag" />
-    <None Include="Shaders\Chromatic.frag" />
-    <None Include="Shaders\Chromatic.vert" />
+    <None Include="Shaders\FlickerAndStatic.frag" />
+    <None Include="Shaders\FlickerAndStatic.vert" />
     <None Include="Shaders\NightVision.vert" />
     <None Include="Shaders\NightVision.frag" />
     <None Include="Shaders\FinalOutputShader.frag" />

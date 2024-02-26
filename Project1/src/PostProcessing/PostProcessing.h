@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ChromaticAbber.h"
+#include "FlickerAndStatic.h"
 #include "NightVision.h"
 
 class PostProcessing : public Object
@@ -32,7 +32,7 @@ private:
 
 	std::vector<BasePPAP*> listOfeffects;
 
-	ChromaticAbber* chromatic;
+	FlickerAndStatic* flickerAndStatic;
 	NightVision* nightVision;
 	
 

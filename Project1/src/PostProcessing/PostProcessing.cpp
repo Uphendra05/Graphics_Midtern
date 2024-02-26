@@ -24,13 +24,13 @@ void PostProcessing::InitializePostProcessing()
 
 	finalShader = new Shader("Shaders/FinalOutputShader.vert", "Shaders/FinalOutputShader.frag");
 
-	chromatic = new ChromaticAbber(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
-	chromatic->finalShader = finalShader;
-	AddEffect(chromatic);
+	flickerAndStatic = new FlickerAndStatic(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
+	flickerAndStatic->finalShader = finalShader;
+	AddEffect(flickerAndStatic);
 
-	nightVision = new NightVision(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
-	nightVision->finalShader = finalShader;
-	AddEffect(nightVision);
+	//nightVision = new NightVision(cameraWidthAndHeight.x, cameraWidthAndHeight.y);
+	//nightVision->finalShader = finalShader;
+	//ddEffect(nightVision);
 
 }
 

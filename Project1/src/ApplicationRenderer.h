@@ -128,13 +128,17 @@ private:
 	Model* quadWithTexture;
 	Model* quadWithTextureOne;
 
+	Model* checkingQuad;
+
 	PhysicsEngine PhysicsEngine;
 	PanelManager* panelManager;
 
 	 
 	 int selectedModelCount = 0;
-	 float waitSec = 5.0f;
-	 float waitSec2 = 5.0f;
+	 float waitSec =  0.0f;
+	 float waitSec2 = 0.0f;
+	 float waitSec3 = 0.0f;
+	 float waitSec4 = 0.0f;
 
 	 float lastX;
 	 float lastY;
