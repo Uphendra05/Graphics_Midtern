@@ -17,6 +17,6 @@ public:
 
 	FrameBuffer* staticEffectBuffer;
 
-	BaseTexture* staticTexture;
+	float intensity = 0.4f;
 };
 

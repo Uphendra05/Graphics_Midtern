@@ -156,7 +156,8 @@ void ApplicationRenderer::WindowInitialize(int width, int height, std::string wi
     GraphicsRender::GetInstance().SetCamera(sceneCamera);
 
     sceneCamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
-    sceneCamera->transform.position = glm::vec3(0, 0, -1.0f);
+    sceneCamera->transform.position = glm::vec3(0.7f, 3.0f, 9.3f);
+    sceneCamera->transform.SetRotation(glm::vec3(-9.2f, 19, 0));
 
     gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 1000.0f);
     gameScenecamera->transform.position = glm::vec3(0, 0, -1.0f);
@@ -645,7 +646,7 @@ void ApplicationRenderer::RenderForCamera(Camera* sceneCamera, FrameBuffer* fram
 void ApplicationRenderer::PostRender()
 {
 
-    /*std::cout << "  Position X :  " << sceneCamera->transform.position.x
+   /* std::cout << "  Position X :  " << sceneCamera->transform.position.x
         << "  Position Y :  " << sceneCamera->transform.position.y
         << "  Position Z :  " << sceneCamera->transform.position.z << std::endl;
 
@@ -655,7 +656,7 @@ void ApplicationRenderer::PostRender()
         << "  Rotation Z :  " << sceneCamera->transform.rotation.z << std::endl;
     std::cout << std::endl;*/
 
-        PhysicsEngine::GetInstance().Update(Time::GetInstance().deltaTime);
+        //PhysicsEngine::GetInstance().Update(Time::GetInstance().deltaTime);
 
 
         if (isScreenOn)
@@ -762,7 +763,7 @@ void ApplicationRenderer::SpaceStation()
     Texture* diffuseTexture = new Texture(diffuseTextureFile);
 
     std::string blackDiffuse = "Models/SpaceStation/Black.png";
-        blackTexture = new Texture(blackDiffuse);
+     blackTexture = new Texture(blackDiffuse);
 
         std::string fingerprintTextureFile = "Models/SpaceStation/Fingerprints.png";
         std::string fingerprint2TextureFile = "Models/SpaceStation/Fingerprint_3.png";

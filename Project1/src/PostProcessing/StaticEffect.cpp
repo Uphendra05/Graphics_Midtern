@@ -34,20 +34,10 @@ void StaticEffect::InitializeEffect(const std::string& vertex, const std::string
 void StaticEffect::SetShaderUniforms()
 {
 
-	shader->setInt("sceneTexture", 0);  // Scene texture from framebuffer
+	shader->setInt("sceneTexture", 0);  
+	shader->setFloat("intensity", intensity);
 	shader->setFloat("time", time);
 
-	//staticTexture->SetTextureSlot(1);
-	//shader->setInt("staticTexture", 1);
-	//staticTexture->Bind();
-
-	
-	//GLCALL(glBindTexture(GL_TEXTURE_2D, frameBuffer->GetColorAttachmentID()));
-	
-
-	//SetShaderUniforms();
-
-	
 }
 
 void StaticEffect::DrawProperties()
