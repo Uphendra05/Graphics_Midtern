@@ -20,8 +20,17 @@ ApplicationRenderer::ApplicationRenderer()
     gameScenecamera = new Camera();
     gameScenecamera->name = "GameScene Camera";
 
-    renderTextureCamera = new Camera();
-    renderTextureCamera->name = "RenderTexture Camera";
+    screenMidTextureCam = new Camera();
+    screenMidTextureCam->name = "Screen Mid TextureCam";
+
+    screenOneMidTextureCam = new Camera();
+    screenOneMidTextureCam->name = "Screen One Mid TextureCam";
+
+    screenRightTextureCam = new Camera();
+    screenRightTextureCam->name = "Screen Right TextureCam";
+
+    screenLeftTextureCam = new Camera();
+    screenLeftTextureCam->name = "Screen Left TextureCam";
 }
 
 ApplicationRenderer::~ApplicationRenderer()
@@ -141,10 +150,26 @@ void ApplicationRenderer::WindowInitialize(int width, int height, std::string wi
     gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
     gameScenecamera->transform.position = glm::vec3(0, 0, -1.0f);
 
-    renderTextureCamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    renderTextureCamera->transform.position = glm::vec3(5, 0, 0);
+    screenMidTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    screenMidTextureCam->transform.position = glm::vec3(5, 0, 0);
+    screenMidTextureCam->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(screenMidTextureCam->renderTexture);
 
-    renderTextureCamera->IntializeRenderTexture(specs);
+    screenOneMidTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    screenOneMidTextureCam->transform.position = glm::vec3(-5, 0, -13);
+    screenOneMidTextureCam->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(screenOneMidTextureCam->renderTexture);
+
+    screenRightTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    screenRightTextureCam->transform.position = glm::vec3(-5, 0, 0);
+    screenRightTextureCam->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(screenRightTextureCam->renderTexture);
+
+    screenLeftTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    screenLeftTextureCam->transform.position = glm::vec3(-5, 0, 10);
+    screenLeftTextureCam->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(screenLeftTextureCam->renderTexture);
+
     // renderTextureCamera->IntializeRenderTexture(new RenderTexture());
 
     isImguiPanelsEnable = true;
@@ -207,7 +232,13 @@ void ApplicationRenderer::Start()
 
     gameScenecamera->postprocessing->InitializePostProcessing();
 
-    renderTextureCamera->postprocessing->InitializePostProcessing();
+    screenMidTextureCam->postprocessing->InitializePostProcessing();
+
+    screenOneMidTextureCam->postprocessing->InitializePostProcessing();
+
+    screenRightTextureCam->postprocessing->InitializePostProcessing();
+
+    screenLeftTextureCam->postprocessing->InitializePostProcessing();
 
    /* Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
     floor->transform.SetRotation(glm::vec3(90, 0, 0));
@@ -551,6 +582,24 @@ void ApplicationRenderer::PostRender()
 {
     
         PhysicsEngine::GetInstance().Update(Time::GetInstance().deltaTime);
+
+        
+        if (waitSec > 0)
+        {
+            waitSec -= Time::GetInstance().deltaTime;
+            std::cout << "Timer :" << waitSec << std::endl;
+        }
+        else
+        {
+
+
+            std::cout << "Timer Done" << waitSec << std::endl;
+            waitSec = 5.0f;
+        }
+
+
+
+
 }
 
 void ApplicationRenderer::Clear()
@@ -584,37 +633,37 @@ void ApplicationRenderer::SpaceStation()
     GraphicsRender::GetInstance().AddModelAndShader(Right_Console, defaultShader);
 
 
-    // Screens and Windows
+    // Screens
     Model* Screen_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_1_xyz_n_rgba_uv.ply");
     Screen_Mid->name = "Screen_Mid";
-    Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;
+    Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = screenMidTextureCam->renderTexture;
     GraphicsRender::GetInstance().AddModelAndShader(Screen_Mid, defaultShader);
 
+    Model* ScreenOne_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_3_xyz_n_rgba_uv.ply");
+    ScreenOne_Mid->name = "ScreenOne_Mid";
+    ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = screenOneMidTextureCam->renderTexture;
+    GraphicsRender::GetInstance().AddModelAndShader(ScreenOne_Mid, defaultShader);
 
+    Screen_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
+    Screen_Right->name = "Screen_Right";
+    Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = screenRightTextureCam->renderTexture;
+    Screen_Right->transform.SetPosition(glm::vec3(-0.6f, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Screen_Right, defaultShader);
 
+    Screen_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
+    Screen_Left->name = "Screen_Left";
+    Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = screenLeftTextureCam->renderTexture;;
+    Screen_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Screen_Left, defaultShader);
+
+    
+
+   
+    // Windows
     Model* Window_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_2_xyz_n_rgba_uv.ply");
     Window_Mid->name = "Window_Mid";
     Window_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
     GraphicsRender::GetInstance().AddModelAndShader(Window_Mid, defaultShader);
-
-
-
-    Model* ScreenOne_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_3_xyz_n_rgba_uv.ply");
-    ScreenOne_Mid->name = "ScreenOne_Mid";
-    ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
-    GraphicsRender::GetInstance().AddModelAndShader(ScreenOne_Mid, defaultShader);
-
-    Model* Screen_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
-    Screen_Right->name = "Screen_Right";
-    Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
-    Screen_Right->transform.SetPosition(glm::vec3(-0.6f, 0, 5));
-    GraphicsRender::GetInstance().AddModelAndShader(Screen_Right, defaultShader);
-
-    Model* Screen_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
-    Screen_Left->name = "Screen_Left";
-    Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
-    Screen_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
-    GraphicsRender::GetInstance().AddModelAndShader(Screen_Left, defaultShader);
 
 
     Model* Window_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_2_xyz_n_rgba_uv.ply");
@@ -647,6 +696,8 @@ void ApplicationRenderer::SpaceStation()
 
 
 }
+
+
 
 void ApplicationRenderer::ProcessInput(GLFWwindow* window)
 {
@@ -730,6 +781,27 @@ void ApplicationRenderer::KeyCallBack(GLFWwindow* window, int key, int scancode,
     {
         InputManager::GetInstance().OnKeyHeld(key);
     }
+
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+    {
+        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[0];
+    }
+    if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+    {
+        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[1];
+
+    }
+    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+    {
+        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[2];
+
+    }
+    if (key == GLFW_KEY_4 && action == GLFW_PRESS)
+    {
+        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[3];
+
+    }
+
 
 }
 

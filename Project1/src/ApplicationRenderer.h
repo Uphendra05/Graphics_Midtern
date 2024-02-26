@@ -50,6 +50,7 @@ public:
 	void PostRender();
 	void Clear();
 	void SpaceStation();
+	void ScreenTextureCycle();
 
 	void ProcessInput(GLFWwindow* window);
 
@@ -62,7 +63,16 @@ public:
 	FrameBuffer* gameframeBuffer;
 	Camera* sceneCamera;
 	Camera* gameScenecamera;
-	Camera* renderTextureCamera;
+
+	//Screen Render Texture Cameras
+	Camera* screenMidTextureCam;
+	Camera* screenOneMidTextureCam;
+
+	Camera* screenRightTextureCam;
+
+	Camera* screenLeftTextureCam;
+
+
 	bool isPlayMode = false;
 
 	glm::mat4 projection;
@@ -74,7 +84,7 @@ public:
 private:
 	GLFWwindow* window;
 	
-	
+	std::vector<BaseTexture*> m_listOfScreenTextuers;
 
 	GraphicsRender render;
 	LightManager lightManager;
@@ -91,12 +101,15 @@ private:
 
 	Model* skyBoxModel;
 
+	Model* Screen_Right;
+	Model* Screen_Left;
+
 	PhysicsEngine PhysicsEngine;
 	PanelManager* panelManager;
 
 	 
 	 int selectedModelCount = 0;
-
+	 float waitSec = 5.0f;
 	 float lastX;
 	 float lastY;
 	 float deltaTime;
