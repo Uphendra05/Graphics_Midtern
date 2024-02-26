@@ -5,29 +5,7 @@ void StartThreadSumma()
 {
    
     
-    double currentTime = glfwGetTime();
-    double lastTime = currentTime;
-    double deltaTime = 0.0f;
-
-    double timeStep = 0.0f;
-
-    while (true)
-    {
-        std::cout << "Thread Started :" <<  std::endl;
-        currentTime = glfwGetTime();
-        deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-
-        
-            Time::GetInstance().SetCurrentTime(glfwGetTime());
-
-            PhysicsEngine::GetInstance().UpdateVerlet(deltaTime);
-
-            std::cout << "DeltaTime :" << deltaTime << std::endl;
-
-    }
-    
-        
+   
 
    
     
@@ -223,13 +201,15 @@ void ApplicationRenderer::InitializeSkybox()
 void ApplicationRenderer::Start()
 {
    
-   StartThreadForSoftBody(0.01f);
+   //StartThreadForSoftBody(0.01f);
 
     sceneCamera->postprocessing->InitializePostProcessing();
 
     gameScenecamera->postprocessing->InitializePostProcessing();
 
-    Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
+    renderTextureCamera->postprocessing->InitializePostProcessing();
+
+   /* Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
     floor->transform.SetRotation(glm::vec3(90, 0, 0));
     floor->transform.SetPosition(glm::vec3(0, -2, 0));
 
@@ -244,7 +224,7 @@ void ApplicationRenderer::Start()
     Model* floor4 = new Model(*floor);
     floor4->transform.SetPosition(glm::vec3(2, 0, 0));
     floor4->meshes[0]->meshMaterial->material()->useMaskTexture = false;
-    floor4->meshes[0]->meshMaterial->material()->SetBaseColor(glm::vec4(1, 1, 1, 0.5f));
+    floor4->meshes[0]->meshMaterial->material()->SetBaseColor(glm::vec4(1, 1, 1, 0.5f));*/
 
 
 
@@ -267,43 +247,45 @@ void ApplicationRenderer::Start()
     directionLight->transform.SetPosition(glm::vec3(0, 0, 5));
 
 
-    Model* plant = new Model("Models/Plant.fbm/Plant.fbx");
-    Texture* plantAlphaTexture = new Texture();
+  /*  Model* plant = new Model("Models/Plant.fbm/Plant.fbx");
+    Texture* plantAlphaTexture = new Texture();*/
 
-    Model* quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
-    quadWithTexture->transform.SetPosition(glm::vec3(5, 0, 0));
-    quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;
+   /* Model* quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
+    quadWithTexture->name = "Render Texture Quads";
+    quadWithTexture->transform.SetPosition(glm::vec3(-4.5f, 1.80f, -0.20f));
+    quadWithTexture->transform.SetScale(glm::vec3(0.4f));
+    quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;*/
 
-    Model* window = new Model("Models/Window/Window.obj");
+  /*  Model* window = new Model("Models/Window/Window.obj");
     window->transform.SetPosition(glm::vec3(-5, 0, 0));
     window->transform.SetRotation(glm::vec3(90, 0, 0));
     window->meshes[0]->meshMaterial->material()->useMaskTexture = false;
-    window->meshes[0]->meshMaterial->material()->SetBaseColor(glm::vec4(1, 1, 1, 0.5f));
+    window->meshes[0]->meshMaterial->material()->SetBaseColor(glm::vec4(1, 1, 1, 0.5f));*/
 
 
 
-    GraphicsRender::GetInstance().AddModelAndShader(plant, alphaCutoutShader);
-    GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
-    GraphicsRender::GetInstance().AddModelAndShader(floor, defaultShader);
-    GraphicsRender::GetInstance().AddModelAndShader(floor2, defaultShader);
-    GraphicsRender::GetInstance().AddModelAndShader(floor3, defaultShader);
-    GraphicsRender::GetInstance().AddModelAndShader(floor4, alphaBlendShader);
-    GraphicsRender::GetInstance().AddModelAndShader(window, alphaBlendShader);
+   // GraphicsRender::GetInstance().AddModelAndShader(plant, alphaCutoutShader);
+    //GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
+    //GraphicsRender::GetInstance().AddModelAndShader(floor, defaultShader);
+    //GraphicsRender::GetInstance().AddModelAndShader(floor2, defaultShader);
+   // GraphicsRender::GetInstance().AddModelAndShader(floor3, defaultShader);
+   // GraphicsRender::GetInstance().AddModelAndShader(floor4, alphaBlendShader);
+    //GraphicsRender::GetInstance().AddModelAndShader(window, alphaBlendShader);
 
    
 
 
-    SoftBodyObjs* softBodyTest1 = new SoftBodyObjs();
+  /*  SoftBodyObjs* softBodyTest1 = new SoftBodyObjs();
     softBodyTest1->LoadModel("Models/Plane/Plane.ply");
     softBodyTest1->name = "MY PLANE";
 
     softBodyTest1->transform.SetPosition(glm::vec3(0, 1, 0));
     softBodyTest1->transform.SetScale(glm::vec3(5));
     GraphicsRender::GetInstance().AddModelAndShader(softBodyTest1, defaultShader);
-    softBodyTest1->InitializeSoftBody();
+    softBodyTest1->InitializeSoftBody();*/
 
    
-
+    SpaceStation();
 
     //LightRenderer
     //LightManager::GetInstance().AddLight(directionLight);
@@ -576,6 +558,94 @@ void ApplicationRenderer::Clear()
     GLCALL(glClearColor(0.1f, 0.1f, 0.1f, 0.1f));
     GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
     //glStencilMask(0x00);
+}
+
+void ApplicationRenderer::SpaceStation()
+{
+    std::string diffuseTextureFile = "Models/SpaceStation/SpaceInteriors_Texture.png";
+    Texture* diffuseTexture = new Texture(diffuseTextureFile);
+
+    Model* Middle_Console = new Model("Models/SpaceStation/SM_Env_Consoles_01_xyz_n_rgba_uv.ply");
+    Middle_Console->name = "Middle_Console";
+    Middle_Console->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    GraphicsRender::GetInstance().AddModelAndShader(Middle_Console, defaultShader);
+
+    Model* Left_Console = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv.ply");
+    Left_Console->name = "Left_Console";
+    Left_Console->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Left_Console->transform.SetPosition(glm::vec3(-10, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Left_Console, defaultShader);
+
+    Model* Right_Console = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_xyz_n_rgba_uv.ply");
+    Right_Console->name = "Right_Console";
+    Right_Console->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Right_Console->transform.SetPosition(glm::vec3(5, 0, 5));
+    Right_Console->transform.SetScale(glm::vec3(-1, 1, 1));
+    GraphicsRender::GetInstance().AddModelAndShader(Right_Console, defaultShader);
+
+
+    // Screens and Windows
+    Model* Screen_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_1_xyz_n_rgba_uv.ply");
+    Screen_Mid->name = "Screen_Mid";
+    Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;
+    GraphicsRender::GetInstance().AddModelAndShader(Screen_Mid, defaultShader);
+
+
+
+    Model* Window_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_2_xyz_n_rgba_uv.ply");
+    Window_Mid->name = "Window_Mid";
+    Window_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Mid, defaultShader);
+
+
+
+    Model* ScreenOne_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_3_xyz_n_rgba_uv.ply");
+    ScreenOne_Mid->name = "ScreenOne_Mid";
+    ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    GraphicsRender::GetInstance().AddModelAndShader(ScreenOne_Mid, defaultShader);
+
+    Model* Screen_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
+    Screen_Right->name = "Screen_Right";
+    Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Screen_Right->transform.SetPosition(glm::vec3(-0.6f, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Screen_Right, defaultShader);
+
+    Model* Screen_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
+    Screen_Left->name = "Screen_Left";
+    Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Screen_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Screen_Left, defaultShader);
+
+
+    Model* Window_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_2_xyz_n_rgba_uv.ply");
+    Window_Left->name = "Window_Left";
+    Window_Left->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Window_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Left, defaultShader);
+
+    Model* Window_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_2_xyz_n_rgba_uv.ply");
+    Window_Right->name = "Window_Right";
+    Window_Right->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Window_Right->transform.SetPosition(glm::vec3(5.0f, 0, 5));
+    Window_Right->transform.SetScale(glm::vec3(-1, 1, 1));
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Right, defaultShader);
+
+
+   // Floor 
+
+      Model* Floor = new Model("Models/SpaceStation/SM_Env_Floor_01_xyz_n_rgba_uv.ply");
+      Floor->name = "Floor";
+      Floor->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+      Floor->transform.SetPosition(glm::vec3(4, 0, 0 ));
+      Floor->transform.SetScale(glm::vec3(3));
+      GraphicsRender::GetInstance().AddModelAndShader(Floor, defaultShader);
+
+   
+
+
+
+
+
 }
 
 void ApplicationRenderer::ProcessInput(GLFWwindow* window)

@@ -49,6 +49,7 @@ public:
 	void Render();
 	void PostRender();
 	void Clear();
+	void SpaceStation();
 
 	void ProcessInput(GLFWwindow* window);
 
