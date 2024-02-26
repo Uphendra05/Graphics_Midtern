@@ -37,6 +37,11 @@ ApplicationRenderer::ApplicationRenderer()
 
     MidScreenCamOne = new Camera();
     MidScreenCamOne->name = "MidScreenCamOne TextureCam";
+
+    MidScreenCamTwo = new Camera();
+    MidScreenCamTwo->name = "MidScreenCamTwo TextureCam";
+
+
 }
 
 ApplicationRenderer::~ApplicationRenderer()
@@ -185,6 +190,9 @@ void ApplicationRenderer::WindowInitialize(int width, int height, std::string wi
     MidScreenCamOne->transform.position = glm::vec3(-5, 30, -3.80);
     MidScreenCamOne->IntializeRenderTexture(specs);
 
+    MidScreenCamTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    MidScreenCamTwo->transform.position = glm::vec3(5, 30, -3.80);
+    MidScreenCamTwo->IntializeRenderTexture(specs);
     // renderTextureCamera->IntializeRenderTexture(new RenderTexture());
 
     isImguiPanelsEnable = true;
@@ -259,6 +267,9 @@ void ApplicationRenderer::Start()
 
     MidScreenCamOne->postprocessing->InitializePostProcessing();
 
+    MidScreenCamTwo->postprocessing->InitializePostProcessing();
+
+
    /* Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
     floor->transform.SetRotation(glm::vec3(90, 0, 0));
     floor->transform.SetPosition(glm::vec3(0, -2, 0));
@@ -309,6 +320,12 @@ void ApplicationRenderer::Start()
     quadWithTexture->transform.SetScale(glm::vec3(2.0f,1.0f,1.0f));
     quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[0];
 
+    quadWithTextureOne = new Model("Models/DefaultQuad/DefaultQuad.fbx");
+    quadWithTextureOne->name = "Render Texture Quads";
+    quadWithTextureOne->transform.SetPosition(glm::vec3(glm::vec3(5, 30, -1.5)));
+    quadWithTextureOne->transform.SetScale(glm::vec3(2.0f, 1.0f, 1.0f));
+    quadWithTextureOne->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[1];
+
   /*  Model* window = new Model("Models/Window/Window.obj");
     window->transform.SetPosition(glm::vec3(-5, 0, 0));
     window->transform.SetRotation(glm::vec3(90, 0, 0));
@@ -319,6 +336,7 @@ void ApplicationRenderer::Start()
 
    // GraphicsRender::GetInstance().AddModelAndShader(plant, alphaCutoutShader);
     GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
+    GraphicsRender::GetInstance().AddModelAndShader(quadWithTextureOne, alphaCutoutShader);
     //GraphicsRender::GetInstance().AddModelAndShader(floor, defaultShader);
     //GraphicsRender::GetInstance().AddModelAndShader(floor2, defaultShader);
    // GraphicsRender::GetInstance().AddModelAndShader(floor3, defaultShader);
@@ -620,16 +638,32 @@ void ApplicationRenderer::PostRender()
             {
                 int index = GetRandomIntNumber(0, m_listOfScreenTextuers.size() - 1);
                 int index2 = GetRandomIntNumber(0, 4);
-                int index3 = GetRandomIntNumber(0, 5);
 
                 std::cout << "Index One :" << index << std::endl;
                 std::cout << "Index Two :" << index2 << std::endl;
-                std::cout << "Index Three :" << index3 << std::endl;
 
                 Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[index];
                 Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[index2];
-                quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[index3];
                 waitSec = 2.0f;
+            }
+
+
+
+            if (waitSec2 > 0)
+            {
+                waitSec2 -= Time::GetInstance().deltaTime;
+                //std::cout << "Timer :" << waitSec << std::endl;
+            }
+            else
+            {
+                int index3 = GetRandomIntNumber(0, 5);
+                int index4 = GetRandomIntNumber(0, 5);
+
+                std::cout << "Index Three :" << index3 << std::endl;
+
+                quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[index3];
+                quadWithTextureOne->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[index4];
+                waitSec2 = 4.0f;
             }
 
         }
@@ -641,6 +675,8 @@ void ApplicationRenderer::PostRender()
             ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
 
             waitSec = 0.1f;
+            waitSec2 = 0.05f;
+
         }
         
         
@@ -863,6 +899,7 @@ void ApplicationRenderer::KeyCallBack(GLFWwindow* window, int key, int scancode,
     if (key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
         Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = MidScreenCamOne->renderTexture;
+        ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = MidScreenCamTwo->renderTexture;
        // ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
         isScreenOn = !isScreenOn;
 

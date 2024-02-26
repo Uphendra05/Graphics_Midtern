@@ -76,6 +76,7 @@ public:
 	Camera* ScreenViewFive;
 
 	Camera* MidScreenCamOne;
+	Camera* MidScreenCamTwo;
 
 
 	bool isPlayMode = false;
@@ -122,6 +123,7 @@ private:
 	Model* ScreenOne_Mid;
 
 	Model* quadWithTexture;
+	Model* quadWithTextureOne;
 
 	PhysicsEngine PhysicsEngine;
 	PanelManager* panelManager;
@@ -129,6 +131,8 @@ private:
 	 
 	 int selectedModelCount = 0;
 	 float waitSec = 5.0f;
+	 float waitSec2 = 5.0f;
+
 	 float lastX;
 	 float lastY;
 	 float deltaTime;
