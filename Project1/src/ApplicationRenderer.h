@@ -51,6 +51,7 @@ public:
 	void Clear();
 	void SpaceStation();
 	void MidScreenTextureLoad();
+	void WindowScreenTextureLoad();
 
 	void ProcessInput(GLFWwindow* window);
 
@@ -99,6 +100,7 @@ private:
 	Shader* defaultShader;
 	Shader* solidColorShader;
 	Shader* alphaBlendShader;
+	Shader* alphaCombineShader;
 	Shader* alphaCutoutShader;
 
 	Shader* stencilShader;

@@ -211,6 +211,9 @@ void ApplicationRenderer::InitializeShaders()
     alphaCutoutShader = new Shader("Shaders/DefaultShader_Vertex.vert", "Shaders/DefaultShader_Fragment.frag", ALPHA_CUTOUT);
     alphaCutoutShader->blendMode = ALPHA_CUTOUT;
 
+    alphaCombineShader = new Shader("Shaders/AlphaBlendCombined.vert", "Shaders/AlphaBlendCombined.frag", ALPHA_BLEND);
+    alphaCombineShader->blendMode = ALPHA_BLEND;
+
     skyboxShader = new Shader("Shaders/SkyboxShader.vert", "Shaders/SkyboxShader.frag");
     skyboxShader->modelUniform = false;
 
@@ -569,6 +572,14 @@ void ApplicationRenderer::RenderForCamera(Camera* sceneCamera, FrameBuffer* fram
     defaultShader->setFloat("time", scrollTime);
     defaultShader->setBool("isDepthBuffer", false);
 
+    alphaCombineShader->Bind();
+    LightManager::GetInstance().UpdateUniformValuesToShader(alphaCombineShader);
+    alphaCombineShader->setMat4("projection", projection);
+    alphaCombineShader->setMat4("view", view);
+    alphaCombineShader->setVec3("viewPos", sceneCamera->transform.position.x, sceneCamera->transform.position.y, sceneCamera->transform.position.z);
+    alphaCombineShader->setFloat("time", scrollTime);
+    alphaCombineShader->setBool("isDepthBuffer", false);
+
     alphaBlendShader->Bind();
     LightManager::GetInstance().UpdateUniformValuesToShader(alphaBlendShader);
     alphaBlendShader->setMat4("projection", projection);
@@ -637,7 +648,7 @@ void ApplicationRenderer::PostRender()
             else
             {
                 int index = GetRandomIntNumber(0, m_listOfScreenTextuers.size() - 1);
-                int index2 = GetRandomIntNumber(0, 4);
+                int index2 = GetRandomIntNumber(0, m_listOfScreenTextuers.size() - 1);
 
                 std::cout << "Index One :" << index << std::endl;
                 std::cout << "Index Two :" << index2 << std::endl;
@@ -656,8 +667,8 @@ void ApplicationRenderer::PostRender()
             }
             else
             {
-                int index3 = GetRandomIntNumber(0, 5);
-                int index4 = GetRandomIntNumber(0, 5);
+                int index3 = GetRandomIntNumber(0, m_listOfMidScreenTextuers.size() - 1);
+                int index4 = GetRandomIntNumber(0, m_listOfMidScreenTextuers.size() - 1);
 
                 std::cout << "Index Three :" << index3 << std::endl;
 
@@ -700,6 +711,25 @@ void ApplicationRenderer::SpaceStation()
 
     std::string blackDiffuse = "Models/SpaceStation/Black.png";
         blackTexture = new Texture(blackDiffuse);
+
+        std::string fingerprintTextureFile = "Models/SpaceStation/Fingerprints.png";
+        std::string fingerprint2TextureFile = "Models/SpaceStation/Fingerprint_3.png";
+
+        std::string scratchTextureFile = "Models/SpaceStation/Scratch.png";
+        std::string scratch2TexxtureFile = "Models/SpaceStation/ScratchesGlass.png";
+
+        std::string fingerPrintFile = "Models/SpaceStation/Fingers.png";
+        std::string scratchPrintFile = "Models/SpaceStation/ScratchesGlass.png";
+
+
+        Texture* fingerprintTexture = new Texture(fingerprintTextureFile);
+        Texture* fingerprint2Texture = new Texture(fingerprint2TextureFile);
+
+        Texture* fogTexture = new Texture(scratch2TexxtureFile);
+        Texture* scratchTexture = new Texture(scratchTextureFile);
+
+        Texture* fingerPrint = new Texture(fingerPrintFile);
+        Texture* scratchPrint = new Texture(scratchPrintFile);
 
     Model* Middle_Console = new Model("Models/SpaceStation/SM_Env_Consoles_01_xyz_n_rgba_uv.ply");
     Middle_Console->name = "Middle_Console";
@@ -749,22 +779,29 @@ void ApplicationRenderer::SpaceStation()
     // Windows
     Model* Window_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_2_xyz_n_rgba_uv.ply");
     Window_Mid->name = "Window_Mid";
-    Window_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
-    GraphicsRender::GetInstance().AddModelAndShader(Window_Mid, defaultShader);
+    Window_Mid->meshes[0]->meshMaterial->material()->alphaTexture = fingerprintTexture;
+    Window_Mid->meshes[0]->meshMaterial->material()->combineTexure = scratchTexture;
+    Window_Mid->meshes[0]->meshMaterial->material()->useMaskTexture = true;
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Mid, alphaCombineShader);
 
 
     Model* Window_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_2_xyz_n_rgba_uv.ply");
     Window_Left->name = "Window_Left";
-    Window_Left->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Window_Left->meshes[0]->meshMaterial->material()->alphaTexture = fingerprint2Texture;
+    Window_Left->meshes[0]->meshMaterial->material()->combineTexure = fogTexture;
+    Window_Left->meshes[0]->meshMaterial->material()->useMaskTexture = true;
+
     Window_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
-    GraphicsRender::GetInstance().AddModelAndShader(Window_Left, defaultShader);
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Left, alphaCombineShader);
 
     Model* Window_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_2_xyz_n_rgba_uv.ply");
     Window_Right->name = "Window_Right";
-    Window_Right->meshes[0]->meshMaterial->material()->diffuseTexture = diffuseTexture;
+    Window_Right->meshes[0]->meshMaterial->material()->alphaTexture = fingerPrint;
+    Window_Right->meshes[0]->meshMaterial->material()->combineTexure = scratchPrint;
+    Window_Right->meshes[0]->meshMaterial->material()->useMaskTexture = true;
     Window_Right->transform.SetPosition(glm::vec3(5.0f, 0, 5));
     Window_Right->transform.SetScale(glm::vec3(-1, 1, 1));
-    GraphicsRender::GetInstance().AddModelAndShader(Window_Right, defaultShader);
+    GraphicsRender::GetInstance().AddModelAndShader(Window_Right, alphaCombineShader);
 
 
    // Floor 
@@ -808,6 +845,13 @@ void ApplicationRenderer::MidScreenTextureLoad()
     m_listOfMidScreenTextuers.push_back(sixScreenTexture);
 
    
+}
+
+void ApplicationRenderer::WindowScreenTextureLoad()
+{
+
+    
+
 }
 
 

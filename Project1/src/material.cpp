@@ -147,4 +147,10 @@ void Material::UpdateMaterial(Shader* shader)
         this->alphaTexture->Bind();
     }
 
+    if (this->combineTexure != nullptr)
+    {
+        this->combineTexure->SetTextureSlot(3);
+        shader->setInt("combine_Texture", 3);
+        this->combineTexure->Bind();
+    }
 }

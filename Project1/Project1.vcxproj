@@ -282,6 +282,8 @@
     <ClInclude Include="src\ImGui\ToolPanel.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\AlphaBlendCombined.frag" />
+    <None Include="Shaders\AlphaBlendCombined.vert" />
     <None Include="Shaders\BlendShader.frag" />
     <None Include="Shaders\BlendShader.vert" />
     <None Include="Shaders\Blur.frag" />

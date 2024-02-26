@@ -192,9 +192,6 @@
     <ClCompile Include="src\PostProcessing\SinglePassEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Threading\BoatThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Physics\BvhNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -413,12 +410,6 @@
     <ClInclude Include="src\Threading\MyThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Threading\BoatThread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Threading\ThreadHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Physics\BvhNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -435,6 +426,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\SoftBody\SoftBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Threading\SoftBodyThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Threading\ThreadStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -469,5 +466,7 @@
     <None Include="Shaders\NightVision.frag" />
     <None Include="Shaders\FinalOutputShader.frag" />
     <None Include="Shaders\FinalOutputShader.vert" />
+    <None Include="Shaders\AlphaBlendCombined.frag" />
+    <None Include="Shaders\AlphaBlendCombined.vert" />
   </ItemGroup>
 </Project>
