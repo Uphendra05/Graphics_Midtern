@@ -20,17 +20,23 @@ ApplicationRenderer::ApplicationRenderer()
     gameScenecamera = new Camera();
     gameScenecamera->name = "GameScene Camera";
 
-    screenMidTextureCam = new Camera();
-    screenMidTextureCam->name = "Screen Mid TextureCam";
+    ScreenViewOne = new Camera();
+    ScreenViewOne->name = "ScreenViewOne TextureCam";
 
-    screenOneMidTextureCam = new Camera();
-    screenOneMidTextureCam->name = "Screen One Mid TextureCam";
+    ScreenViewTwo = new Camera();
+    ScreenViewTwo->name = "ScreenViewTwo TextureCam";
 
-    screenRightTextureCam = new Camera();
-    screenRightTextureCam->name = "Screen Right TextureCam";
+    ScreenViewThree = new Camera();
+    ScreenViewThree->name = "ScreenViewThree TextureCam";
 
-    screenLeftTextureCam = new Camera();
-    screenLeftTextureCam->name = "Screen Left TextureCam";
+    ScreenViewFour = new Camera();
+    ScreenViewFour->name = "ScreenViewFour TextureCam";
+
+    ScreenViewFive = new Camera();
+    ScreenViewFive->name = "ScreenViewFive TextureCam";
+
+    MidScreenCamOne = new Camera();
+    MidScreenCamOne->name = "MidScreenCamOne TextureCam";
 }
 
 ApplicationRenderer::~ApplicationRenderer()
@@ -150,25 +156,34 @@ void ApplicationRenderer::WindowInitialize(int width, int height, std::string wi
     gameScenecamera->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
     gameScenecamera->transform.position = glm::vec3(0, 0, -1.0f);
 
-    screenMidTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    screenMidTextureCam->transform.position = glm::vec3(5, 0, 0);
-    screenMidTextureCam->IntializeRenderTexture(specs);
-    m_listOfScreenTextuers.push_back(screenMidTextureCam->renderTexture);
+    ScreenViewOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewOne->transform.position = glm::vec3(5, 0, 0);
+    ScreenViewOne->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(ScreenViewOne->renderTexture);
 
-    screenOneMidTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    screenOneMidTextureCam->transform.position = glm::vec3(-5, 0, -13);
-    screenOneMidTextureCam->IntializeRenderTexture(specs);
-    m_listOfScreenTextuers.push_back(screenOneMidTextureCam->renderTexture);
+    ScreenViewTwo->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewTwo->transform.position = glm::vec3(-5, 0, -13);
+    ScreenViewTwo->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(ScreenViewTwo->renderTexture);
 
-    screenRightTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    screenRightTextureCam->transform.position = glm::vec3(-5, 0, 0);
-    screenRightTextureCam->IntializeRenderTexture(specs);
-    m_listOfScreenTextuers.push_back(screenRightTextureCam->renderTexture);
+    ScreenViewThree->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewThree->transform.position = glm::vec3(-5, 0, 0);
+    ScreenViewThree->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(ScreenViewThree->renderTexture);
 
-    screenLeftTextureCam->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
-    screenLeftTextureCam->transform.position = glm::vec3(-5, 0, 10);
-    screenLeftTextureCam->IntializeRenderTexture(specs);
-    m_listOfScreenTextuers.push_back(screenLeftTextureCam->renderTexture);
+    ScreenViewFour->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewFour->transform.position = glm::vec3(-5, 0, -6);
+    ScreenViewFour->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(ScreenViewFour->renderTexture);
+
+    ScreenViewFive->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    ScreenViewFive->transform.position = glm::vec3(-5, 0, -3);
+    ScreenViewFive->IntializeRenderTexture(specs);
+    m_listOfScreenTextuers.push_back(ScreenViewFive->renderTexture);
+
+    MidScreenCamOne->InitializeCamera(CameraType::PERSPECTIVE, 45.0f, 0.1f, 100.0f);
+    MidScreenCamOne->transform.position = glm::vec3(-5, 30, -3.80);
+    MidScreenCamOne->IntializeRenderTexture(specs);
 
     // renderTextureCamera->IntializeRenderTexture(new RenderTexture());
 
@@ -232,13 +247,17 @@ void ApplicationRenderer::Start()
 
     gameScenecamera->postprocessing->InitializePostProcessing();
 
-    screenMidTextureCam->postprocessing->InitializePostProcessing();
+    ScreenViewOne->postprocessing->InitializePostProcessing();
 
-    screenOneMidTextureCam->postprocessing->InitializePostProcessing();
+    ScreenViewTwo->postprocessing->InitializePostProcessing();
 
-    screenRightTextureCam->postprocessing->InitializePostProcessing();
+    ScreenViewThree->postprocessing->InitializePostProcessing();
 
-    screenLeftTextureCam->postprocessing->InitializePostProcessing();
+    ScreenViewFour->postprocessing->InitializePostProcessing();
+
+    ScreenViewFive->postprocessing->InitializePostProcessing();
+
+    MidScreenCamOne->postprocessing->InitializePostProcessing();
 
    /* Model* floor = new Model((char*)"Models/Floor/Floor.fbx");
     floor->transform.SetRotation(glm::vec3(90, 0, 0));
@@ -268,7 +287,7 @@ void ApplicationRenderer::Start()
 
     Light* directionLight = new Light();
     directionLight->Initialize(LightType::DIRECTION_LIGHT, 1);
-    directionLight->SetAmbientColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
+    directionLight->SetAmbientColor(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 
     directionLight->SetColor(glm::vec4(1, 1, 1, 1.0f));
     directionLight->SetAttenuation(1, 1, 0.01f);
@@ -281,11 +300,14 @@ void ApplicationRenderer::Start()
   /*  Model* plant = new Model("Models/Plant.fbm/Plant.fbx");
     Texture* plantAlphaTexture = new Texture();*/
 
-   /* Model* quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
+    MidScreenTextureLoad();
+
+
+    quadWithTexture = new Model("Models/DefaultQuad/DefaultQuad.fbx");
     quadWithTexture->name = "Render Texture Quads";
-    quadWithTexture->transform.SetPosition(glm::vec3(-4.5f, 1.80f, -0.20f));
-    quadWithTexture->transform.SetScale(glm::vec3(0.4f));
-    quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = renderTextureCamera->renderTexture;*/
+    quadWithTexture->transform.SetPosition(glm::vec3(glm::vec3(-5, 30, -1.5)));
+    quadWithTexture->transform.SetScale(glm::vec3(2.0f,1.0f,1.0f));
+    quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[0];
 
   /*  Model* window = new Model("Models/Window/Window.obj");
     window->transform.SetPosition(glm::vec3(-5, 0, 0));
@@ -296,7 +318,7 @@ void ApplicationRenderer::Start()
 
 
    // GraphicsRender::GetInstance().AddModelAndShader(plant, alphaCutoutShader);
-    //GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
+    GraphicsRender::GetInstance().AddModelAndShader(quadWithTexture, alphaCutoutShader);
     //GraphicsRender::GetInstance().AddModelAndShader(floor, defaultShader);
     //GraphicsRender::GetInstance().AddModelAndShader(floor2, defaultShader);
    // GraphicsRender::GetInstance().AddModelAndShader(floor3, defaultShader);
@@ -578,24 +600,50 @@ void ApplicationRenderer::RenderForCamera(Camera* sceneCamera, FrameBuffer* fram
     }
 
 }
+
+
 void ApplicationRenderer::PostRender()
 {
     
         PhysicsEngine::GetInstance().Update(Time::GetInstance().deltaTime);
 
-        
-        if (waitSec > 0)
+
+        if (isScreenOn)
         {
-            waitSec -= Time::GetInstance().deltaTime;
-            std::cout << "Timer :" << waitSec << std::endl;
+
+            if (waitSec > 0)
+            {
+                waitSec -= Time::GetInstance().deltaTime;
+                //std::cout << "Timer :" << waitSec << std::endl;
+            }
+            else
+            {
+                int index = GetRandomIntNumber(0, m_listOfScreenTextuers.size() - 1);
+                int index2 = GetRandomIntNumber(0, 4);
+                int index3 = GetRandomIntNumber(0, 5);
+
+                std::cout << "Index One :" << index << std::endl;
+                std::cout << "Index Two :" << index2 << std::endl;
+                std::cout << "Index Three :" << index3 << std::endl;
+
+                Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[index];
+                Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[index2];
+                quadWithTexture->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfMidScreenTextuers[index3];
+                waitSec = 2.0f;
+            }
+
         }
         else
         {
+            Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
+            Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
+            Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
+            ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
 
-
-            std::cout << "Timer Done" << waitSec << std::endl;
-            waitSec = 5.0f;
+            waitSec = 0.1f;
         }
+        
+        
 
 
 
@@ -613,6 +661,9 @@ void ApplicationRenderer::SpaceStation()
 {
     std::string diffuseTextureFile = "Models/SpaceStation/SpaceInteriors_Texture.png";
     Texture* diffuseTexture = new Texture(diffuseTextureFile);
+
+    std::string blackDiffuse = "Models/SpaceStation/Black.png";
+        blackTexture = new Texture(blackDiffuse);
 
     Model* Middle_Console = new Model("Models/SpaceStation/SM_Env_Consoles_01_xyz_n_rgba_uv.ply");
     Middle_Console->name = "Middle_Console";
@@ -634,25 +685,25 @@ void ApplicationRenderer::SpaceStation()
 
 
     // Screens
-    Model* Screen_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_1_xyz_n_rgba_uv.ply");
+     Screen_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_1_xyz_n_rgba_uv.ply");
     Screen_Mid->name = "Screen_Mid";
-    Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = screenMidTextureCam->renderTexture;
+    Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
     GraphicsRender::GetInstance().AddModelAndShader(Screen_Mid, defaultShader);
 
-    Model* ScreenOne_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_3_xyz_n_rgba_uv.ply");
+    ScreenOne_Mid = new Model("Models/SpaceStation/SM_Env_Consoles_01_screen_3_xyz_n_rgba_uv.ply");
     ScreenOne_Mid->name = "ScreenOne_Mid";
-    ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = screenOneMidTextureCam->renderTexture;
+    ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
     GraphicsRender::GetInstance().AddModelAndShader(ScreenOne_Mid, defaultShader);
 
     Screen_Right = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
     Screen_Right->name = "Screen_Right";
-    Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = screenRightTextureCam->renderTexture;
+    Screen_Right->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
     Screen_Right->transform.SetPosition(glm::vec3(-0.6f, 0, 5));
     GraphicsRender::GetInstance().AddModelAndShader(Screen_Right, defaultShader);
 
     Screen_Left = new Model("Models/SpaceStation/SM_Env_Consoles_Corner_01_screen_1_xyz_n_rgba_uv.ply");
     Screen_Left->name = "Screen_Left";
-    Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = screenLeftTextureCam->renderTexture;;
+    Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
     Screen_Left->transform.SetPosition(glm::vec3(-10.0f, 0, 5));
     GraphicsRender::GetInstance().AddModelAndShader(Screen_Left, defaultShader);
 
@@ -695,6 +746,32 @@ void ApplicationRenderer::SpaceStation()
 
 
 
+}
+
+void ApplicationRenderer::MidScreenTextureLoad()
+{
+    std::string FirstScreenTexture = "Models/SpaceStation/ScreenTexts/One.png";
+    std::string SecondScreenTexture = "Models/SpaceStation/ScreenTexts/Two.png";
+    std::string ThirdScreenTexture = "Models/SpaceStation/ScreenTexts/Three.png";
+    std::string FourthScreenTexture = "Models/SpaceStation/ScreenTexts/Four.png";
+    std::string FifthScreenTexture = "Models/SpaceStation/ScreenTexts/Five.png";
+    std::string SixthScreenTexture = "Models/SpaceStation/ScreenTexts/Six.png";
+
+    oneScreenTexture = new Texture(FirstScreenTexture);
+    twoScreenTexture = new Texture(SecondScreenTexture);
+    threeScreenTexture = new Texture(ThirdScreenTexture);
+    fourScreenTexture = new Texture(FourthScreenTexture);
+    fiveScreenTexture = new Texture(FifthScreenTexture);
+    sixScreenTexture = new Texture(SixthScreenTexture);
+
+    m_listOfMidScreenTextuers.push_back(oneScreenTexture);
+    m_listOfMidScreenTextuers.push_back(twoScreenTexture);
+    m_listOfMidScreenTextuers.push_back(threeScreenTexture);
+    m_listOfMidScreenTextuers.push_back(fourScreenTexture);
+    m_listOfMidScreenTextuers.push_back(fiveScreenTexture);
+    m_listOfMidScreenTextuers.push_back(sixScreenTexture);
+
+   
 }
 
 
@@ -782,25 +859,15 @@ void ApplicationRenderer::KeyCallBack(GLFWwindow* window, int key, int scancode,
         InputManager::GetInstance().OnKeyHeld(key);
     }
 
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-    {
-        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[0];
-    }
+   
     if (key == GLFW_KEY_2 && action == GLFW_PRESS)
     {
-        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[1];
+        Screen_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = MidScreenCamOne->renderTexture;
+       // ScreenOne_Mid->meshes[0]->meshMaterial->material()->diffuseTexture = blackTexture;
+        isScreenOn = !isScreenOn;
 
     }
-    if (key == GLFW_KEY_3 && action == GLFW_PRESS)
-    {
-        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[2];
-
-    }
-    if (key == GLFW_KEY_4 && action == GLFW_PRESS)
-    {
-        Screen_Left->meshes[0]->meshMaterial->material()->diffuseTexture = m_listOfScreenTextuers[3];
-
-    }
+   
 
 
 }

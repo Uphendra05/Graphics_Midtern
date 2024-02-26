@@ -50,7 +50,7 @@ public:
 	void PostRender();
 	void Clear();
 	void SpaceStation();
-	void ScreenTextureCycle();
+	void MidScreenTextureLoad();
 
 	void ProcessInput(GLFWwindow* window);
 
@@ -65,12 +65,17 @@ public:
 	Camera* gameScenecamera;
 
 	//Screen Render Texture Cameras
-	Camera* screenMidTextureCam;
-	Camera* screenOneMidTextureCam;
+	Camera* ScreenViewOne;
 
-	Camera* screenRightTextureCam;
+	Camera* ScreenViewTwo;
 
-	Camera* screenLeftTextureCam;
+	Camera* ScreenViewThree;
+
+	Camera* ScreenViewFour;
+
+	Camera* ScreenViewFive;
+
+	Camera* MidScreenCamOne;
 
 
 	bool isPlayMode = false;
@@ -85,6 +90,7 @@ private:
 	GLFWwindow* window;
 	
 	std::vector<BaseTexture*> m_listOfScreenTextuers;
+	std::vector<BaseTexture*> m_listOfMidScreenTextuers;
 
 	GraphicsRender render;
 	LightManager lightManager;
@@ -97,12 +103,25 @@ private:
 	Shader* stencilShader;
 	Shader* skyboxShader;
 
+	Texture* blackTexture;
+
+	Texture* oneScreenTexture;
+	Texture* twoScreenTexture;
+	Texture* threeScreenTexture;
+	Texture* fourScreenTexture;
+	Texture* fiveScreenTexture;
+	Texture* sixScreenTexture;
+
 	SkyboxMaterial* skyBoxMaterial;
 
 	Model* skyBoxModel;
 
 	Model* Screen_Right;
 	Model* Screen_Left;
+	Model* Screen_Mid;
+	Model* ScreenOne_Mid;
+
+	Model* quadWithTexture;
 
 	PhysicsEngine PhysicsEngine;
 	PanelManager* panelManager;
@@ -120,6 +139,8 @@ private:
 
 	 bool firstMouse;
 	 bool isImguiPanelsEnable = false;
+	 bool isScreenOn = false;
+	
 
 };
 
