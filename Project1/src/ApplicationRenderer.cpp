@@ -742,11 +742,7 @@ void ApplicationRenderer::PostRender()
 
 
         }
-        
-        
-
-
-
+ 
 
 }
 
